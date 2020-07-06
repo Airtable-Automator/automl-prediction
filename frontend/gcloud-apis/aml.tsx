@@ -63,6 +63,16 @@ export type Model = {
 export type ListModelResponse = {
   model: Array<Model>,
 }
+
+export type PredictResponse = {
+  payload: Array<{
+    annotationSpecId: string,
+    classification?: {
+      score: number,
+    },
+    displayName: string,
+  }>
+}
 export class AutoMLClient extends BaseClient {
 
   constructor(settings: UseSettingsHook, endpoint?: string) {
@@ -151,4 +161,34 @@ export class AutoMLClient extends BaseClient {
     }
   }
 
+  async predict(projectId: string, modelId: string, imageAsBlob: Blob, scoreThreshold: number = 0.5): Promise<PredictResponse> {
+    const converToBase64 = (input) => new Promise<[string, string]>(function (resolve, reject) {
+      const reader = new FileReader();
+      reader.onload = () => {
+        const base64 = 'base64';
+        const dataUri = reader.result;
+        const pos = (dataUri as string).indexOf(base64);
+        const base64Payload = dataUri.slice(pos + base64.length + 1)
+        resolve([base64Payload as string, dataUri as string]);
+      };
+      reader.onerror = reject;
+      reader.readAsDataURL(input);
+    });
+
+    const [imageAsBase64, dataUri] = await converToBase64(imageAsBlob);
+    const payload = {
+      payload: {
+        image: {
+          imageBytes: imageAsBase64
+        },
+      },
+      params: {
+        score_threshold: scoreThreshold.toString()
+      }
+    };
+
+    const response = await this._makeRequestPost(`/v1/projects/${projectId}/locations/us-central1/models/${modelId}:predict`, payload);
+    URL.revokeObjectURL(dataUri);
+    return response;
+  }
 }

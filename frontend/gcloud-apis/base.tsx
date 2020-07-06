@@ -41,6 +41,7 @@ export abstract class BaseClient {
 
   protected async _makeRequestPost(resource, body) {
     const accessToken = await this.accessToken();
+    const requestBody = JSON.stringify(body);
 
     const response = await fetch(`${this.endpoint}${resource}`, {
       method: 'POST',
@@ -51,7 +52,7 @@ export abstract class BaseClient {
       },
       redirect: 'follow',
       referrerPolicy: 'no-referrer',
-      body: JSON.stringify(body),
+      body: requestBody,
     });
 
     return this.handleResponse(response);
