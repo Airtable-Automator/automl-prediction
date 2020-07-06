@@ -90,7 +90,7 @@ export function ConfigureAutoMLSettings({ appState, setAppState }) {
       return dataset.value === selectedModel;
     });
     const updatedAppState = { ...appState };
-    console.log(updatedAppState);
+    // console.log(updatedAppState);
     updatedAppState.index = updatedAppState.index + 1;
     updatedAppState.state.automl = {
       project: selectedProject,
@@ -99,7 +99,7 @@ export function ConfigureAutoMLSettings({ appState, setAppState }) {
         name: selectedModelOption.label
       },
     }
-    console.log(JSON.stringify(updatedAppState));
+    // console.log(JSON.stringify(updatedAppState));
     setAppState(updatedAppState);
   }
 

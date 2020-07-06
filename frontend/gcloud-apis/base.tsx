@@ -24,7 +24,7 @@ export abstract class BaseClient {
 
   protected async _makeRequestGet(resource) {
     const accessToken = await this.accessToken();
-    console.log(accessToken);
+    // console.log(accessToken);
 
     const response = await fetch(`${this.endpoint}${resource}`, {
       credentials: 'include',
@@ -59,9 +59,9 @@ export abstract class BaseClient {
   }
 
   protected async handleResponse(response: Response): Promise<any> {
-    console.log(response);
+    // console.log(response);
     const responseAsJson = await response.json() as any | ErrorResponse;
-    console.log(responseAsJson);
+    // console.log(responseAsJson);
     if (response.status !== 200) {
       // this is now an error
       throw responseAsJson;

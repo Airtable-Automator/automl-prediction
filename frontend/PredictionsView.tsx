@@ -44,7 +44,7 @@ export function PredictionsView({ appState, setAppState }) {
         const img = record.getCellValue(imageField);
         if (img) {
           const i = img[0];// we only pick the first image from the attachments
-          console.log(i);
+          // console.log(i);
 
           const responseFromAirtable = await fetch(i.url);
           const imageAsBlob = await responseFromAirtable.blob();
@@ -52,7 +52,7 @@ export function PredictionsView({ appState, setAppState }) {
           setCurrentStep(`Predicting ${index + 1} out of ${total} records.`);
           try {
             const response = await automlClient.predict(projectId, modelId, imageAsBlob);
-            console.log(response);
+            // console.log(response);
             if (response.payload && response.payload.length > 0) {
               await sourceTable.updateRecordAsync(record.id, {
                 [predictionResultColName]: response.payload[0].displayName,
@@ -65,7 +65,7 @@ export function PredictionsView({ appState, setAppState }) {
 
         }
       } else {
-        console.log("Already predicted, skipping record");
+        // console.log("Already predicted, skipping record");
       }
 
       setProgress((index + 1) / total);

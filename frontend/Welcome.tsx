@@ -81,13 +81,13 @@ export function Welcome({ appState, setAppState, setIsSettingsVisible }) {
 
     try {
       const _ = await gtoken.getToken();
-      console.log(_);
+      // console.log(_);
       // validation success
       setLoading(false);
 
       const updatedAppState = { ...appState };
-      console.log(updatedAppState);
-      console.log(JSON.stringify(updatedAppState));
+      // console.log(updatedAppState);
+      // console.log(JSON.stringify(updatedAppState));
       updatedAppState.index = 1;
       setAppState(updatedAppState);
 
