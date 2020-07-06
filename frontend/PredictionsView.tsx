@@ -98,7 +98,10 @@ export function PredictionsView({ appState, setAppState }) {
     <Box display="flex" alignItems="center" justifyContent="center" border="default" flexDirection="column" width={viewport.size.width} height={viewport.size.height} padding={0} className='review-settings'>
       <Box maxWidth='650px'>
         <Box paddingBottom='10px' display='flex' alignItems='center' justifyContent='center'>
-          <Heading size='xlarge'>Doing Predictions</Heading>
+          <Heading size='xlarge'>
+            {!hasFinished && "Doing Predictions"}
+            {hasFinished && "Predictions Complete"}
+          </Heading>
         </Box>
 
         <Box>
