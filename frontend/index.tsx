@@ -5,6 +5,7 @@ import {
     useSettingsButton,
     Box,
 } from '@airtable/blocks/ui';
+import { viewport } from '@airtable/blocks';
 import React, { useState, useEffect } from 'react';
 import { Welcome } from './Welcome';
 import { useSettings } from './settings';
@@ -19,14 +20,19 @@ type AppState = {
     state: object,
 }
 
+viewport.addMaxFullscreenSize({
+    width: 680,
+    height: 500,
+});
+
 function AutoMLTrainingBlock() {
     const viewport = useViewport();
     const { isValid, message, settings } = useSettings();
     const [isSettingsVisible, setIsSettingsVisible] = useState(false);
     useSettingsButton(() => {
-        // if (!isSettingsVisible) {
-            // viewport.enterFullscreenIfPossible();
-        // }
+        if (!isSettingsVisible) {
+            viewport.enterFullscreenIfPossible();
+        }
         setIsSettingsVisible(!isSettingsVisible);
     });
 
