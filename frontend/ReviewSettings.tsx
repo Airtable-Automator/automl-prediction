@@ -28,7 +28,6 @@ export function ReviewSettings({ appState, setAppState }) {
 
     .center {
       display: flex;
-      justify-content: center;
       align-items: center;
     }
   `);
@@ -58,9 +57,14 @@ export function ReviewSettings({ appState, setAppState }) {
     setAppState(updatedAppState);
   }
 
+  const startOver = () => {
+    window.localStorage.clear();
+    setAppState({ index: 1, state: {} });
+  }
+
   return (
     <Box display="flex" alignItems="center" justifyContent="center" border="default" flexDirection="column" width={viewport.size.width} height={viewport.size.height} padding={0} className='review-settings'>
-      <Box maxWidth='650px'>
+      <Box maxWidth='580px'>
         <Box paddingBottom='10px' display='flex' alignItems='center' justifyContent='center'>
           <Heading size='xlarge'>Review Settings</Heading>
         </Box>
@@ -102,11 +106,17 @@ export function ReviewSettings({ appState, setAppState }) {
             </Box>
           </Box>
 
-          <Box className='center' paddingTop='20px'>
+          <Box className='center' paddingTop='20px' justifyContent='space-evenly'>
             <Button variant='primary' width='180px' onClick={startPreprocessing}>
               <Box className='center'>
                 <Icon name='play' size={16} /> &nbsp; Start Prediction
               </Box>
+            </Button>
+            <Button
+              variant='danger'
+              icon='redo'
+              onClick={startOver}>
+              Start Over
             </Button>
           </Box>
         </Box>
