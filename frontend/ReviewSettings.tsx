@@ -1,16 +1,10 @@
 import {
   Box,
-  FormField,
   Heading,
-  Input,
   Button,
-  Loader,
-  Dialog,
   Text,
   useViewport,
-  useGlobalConfig,
   TextButton,
-  Select,
   Icon,
   loadCSSFromString,
 } from '@airtable/blocks/ui';
@@ -111,7 +105,7 @@ export function ReviewSettings({ appState, setAppState }) {
           <Box className='center' paddingTop='20px'>
             <Button variant='primary' width='180px' onClick={startPreprocessing}>
               <Box className='center'>
-                <Icon name='play' size={16} /> &nbsp; Start Pre-processing
+                <Icon name='play' size={16} /> &nbsp; Start Prediction
               </Box>
             </Button>
           </Box>
