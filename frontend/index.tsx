@@ -11,9 +11,7 @@ import { useSettings } from './settings';
 import { ConfigureAutoMLSettings } from './ConfigureAutoMLSettings';
 import { ChooseSource } from './ChooseSource';
 import { ReviewSettings } from './ReviewSettings';
-import { PreProcessingView } from './PreProcessingView';
 import { useLocalStorage } from './use_local_storage';
-import { TrainingView } from './TrainingView';
 import { PredictionsView } from './PredictionsView';
 
 type AppState = {
@@ -26,9 +24,9 @@ function AutoMLTrainingBlock() {
     const { isValid, message, settings } = useSettings();
     const [isSettingsVisible, setIsSettingsVisible] = useState(false);
     useSettingsButton(() => {
-        if (!isSettingsVisible) {
-            viewport.enterFullscreenIfPossible();
-        }
+        // if (!isSettingsVisible) {
+            // viewport.enterFullscreenIfPossible();
+        // }
         setIsSettingsVisible(!isSettingsVisible);
     });
 
