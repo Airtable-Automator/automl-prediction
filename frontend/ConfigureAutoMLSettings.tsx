@@ -14,15 +14,12 @@ import {
   Icon,
 } from '@airtable/blocks/ui';
 import React, { useState, useEffect } from 'react';
-import CSS from 'csstype';
 import _ from 'lodash';
 import { CloudResourceManagerClient } from './gcloud-apis/crm';
-import { ErrorResponse } from './gcloud-apis/base';
 import { useSettings } from './settings';
 import { updateState, isNotEmpty } from './utils';
 import { SelectOption, SelectOptionValue } from '@airtable/blocks/dist/types/src/ui/select_and_select_buttons_helpers';
 import { AutoMLClient } from './gcloud-apis/aml';
-import { GsClient } from './gcloud-apis/gs';
 
 const PLACEHOLDER = "__PLACEHOLDER__";
 
