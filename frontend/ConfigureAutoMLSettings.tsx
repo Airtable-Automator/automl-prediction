@@ -125,12 +125,13 @@ export function ConfigureAutoMLSettings({ appState, setAppState }) {
 
         {selectedProject && PLACEHOLDER !== selectedProject &&
           <Box>
-            <FormField label="Choose a Model for Prediction">
+            <FormField label="Choose a Deployed Model for Prediction">
               <Select
                 options={availableModels}
                 value={selectedModel}
                 onChange={(value) => { setSelectedModel(value); }}
               />
+              <Text>Note: Disabled items are not deployed models.</Text>
             </FormField>
           </Box>
         }
