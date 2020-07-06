@@ -44,6 +44,25 @@ export type Operation = {
 export type Operations = {
   operations: Array<Operation>
 }
+
+export type Model = {
+  name: string,
+  displayName: string,
+  datasetId: string,
+  createTime: string,
+  deploymentState: string,
+  updateTime: string,
+  imageClassificationModelMetadata?: {
+    modelType: string,
+    nodeQps: number,
+    trainBudgetMilliNodeHours: string,
+    trainCostMilliNodeHours: string,
+  },
+}
+
+export type ListModelResponse = {
+  model: Array<Model>,
+}
 export class AutoMLClient extends BaseClient {
 
   constructor(settings: UseSettingsHook, endpoint?: string) {
@@ -112,6 +131,10 @@ export class AutoMLClient extends BaseClient {
     };
 
     return await this._makeRequestPost(`/v1/projects/${projectId}/locations/us-central1/models`, payload);
+  }
+
+  async listModels(projectId: string): Promise<ListModelResponse> {
+    return await this._makeRequestGet(`/v1/projects/${projectId}/locations/us-central1/models`);
   }
 
   async waitForActiveOperationToComplete(projectId: string, operationId: string, refreshInterval: number = 5000): Promise<Operation> {
