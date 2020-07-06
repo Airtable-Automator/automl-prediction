@@ -31,6 +31,11 @@ export function ConfigureAutoMLSettings({ appState, setAppState }) {
   const [availableModels, setAvailableModels] = useState<Array<SelectOption>>([{ value: PLACEHOLDER, label: "Loading..." }]);
   const [selectedModel, setSelectedModel] = useState<SelectOptionValue>(undefined);
 
+  const startOver = () => {
+    window.localStorage.clear();
+    setAppState({ index: 1, state: {} });
+  }
+
   const crmClient = new CloudResourceManagerClient(settings, settings.settings.crmEndpoint);
   const loadProjects = async () => {
     const projects = await crmClient.listProjects();
@@ -105,7 +110,7 @@ export function ConfigureAutoMLSettings({ appState, setAppState }) {
 
   return (
     <Box display="flex" alignItems="center" justifyContent="center" border="default" flexDirection="column" width={viewport.size.width} height={viewport.size.height} padding={0}>
-      <Box maxWidth='650px'>
+      <Box maxWidth='580px'>
         <Box paddingBottom='10px'>
           <Heading size='xlarge'>Configure AutoML Settings</Heading>
         </Box>
@@ -133,11 +138,16 @@ export function ConfigureAutoMLSettings({ appState, setAppState }) {
           </Box>
         }
 
-        {isValid &&
-          <Box flexDirection='row-reverse'>
-            <Button variant="primary" onClick={next}>Review Settings</Button>
-          </Box>}
-
+        <Box display='flex' justifyContent='space-evenly'>
+          {isValid &&
+            <Button variant="primary" onClick={next}>Review Settings</Button>}
+          <Button
+            variant='danger'
+            icon='redo'
+            onClick={startOver}>
+            Start Over
+        </Button>
+        </Box>
       </Box>
     </Box>
   );
