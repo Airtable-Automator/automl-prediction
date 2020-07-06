@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import _, { update } from 'lodash';
-import { useViewport, Box, Heading, ProgressBar, useBase } from '@airtable/blocks/ui';
+import { useViewport, Box, Heading, ProgressBar, useBase, Button } from '@airtable/blocks/ui';
 import PQueue from 'p-queue';
 import { useSettings } from './settings';
 import { AutoMLClient } from './gcloud-apis/aml';
@@ -16,9 +16,9 @@ export function PredictionsView({ appState, setAppState }) {
   const viewport = useViewport();
   const base = useBase();
 
-  const [currentStep, setCurrentStep] = useState('Initializing');
-  const [progress, setProgress] = useState(0.0);
-  const [hasFinished, setHasFinished] = useState(false);
+  const [hasFinished, setHasFinished] = useState(_.get(appState, "state.prediction.finished") as boolean || false);
+  const [progress, setProgress] = useState(hasFinished ? 1.0 : 0.0);
+  const [currentStep, setCurrentStep] = useState(hasFinished ? 'Prediction Complete' : 'Initializing');
 
   const sourceTable = base.getTableByNameIfExists(appState.state.source.table);
   const automlClient = new AutoMLClient(settings, settings.settings.automlEndpoint);
@@ -78,10 +78,20 @@ export function PredictionsView({ appState, setAppState }) {
     await queue.onEmpty();
     queryData.unloadData();
     setHasFinished(true);// mark the predictions are complete.
+
+    const updatedAppState = _.set(appState, "state.prediction.finished", true);
+    setAppState(updatedAppState);
+  }
+
+  const startOver = () => {
+    window.localStorage.clear();
+    setAppState({ index: 1, state: {} });
   }
 
   useEffect(() => {
-    performPredictions();
+    if (!hasFinished) {
+      performPredictions();
+    }
   }, [sourceTable]);
 
   return (
@@ -97,6 +107,12 @@ export function PredictionsView({ appState, setAppState }) {
           </Box>
           <ProgressBar progress={progress} />
         </Box>
+
+        {hasFinished &&
+          <Box display='flex' alignItems='center' justifyContent='center' padding='20px'>
+            <Button variant='primary' icon='redo' onClick={startOver}>Start Over</Button>
+          </Box>
+        }
       </Box>
     </Box>
   );
