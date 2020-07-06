@@ -23,15 +23,10 @@ import { GoogleToken } from 'gtoken';
 
 async function checkForDefaultProxyUrls(globalConfig: GlobalConfig) {
   const autoMLProxy = globalConfig.get(GCLOUD_AUTOML_ENDPOINT) as string;
-  const gsProxy = globalConfig.get(GCLOUD_GS_ENDPOINT) as string;
   const crmProxy = globalConfig.get(GCLOUD_CRM_ENDPOINT) as string;
 
   if (isEmpty(autoMLProxy)) {
     await globalConfig.setAsync(GCLOUD_AUTOML_ENDPOINT, DEFAULT_AUTOML_ENDPOINT);
-  }
-
-  if (isEmpty(gsProxy)) {
-    await globalConfig.setAsync(GCLOUD_GS_ENDPOINT, DEFAULT_GS_ENDPOINT);
   }
 
   if (isEmpty(crmProxy)) {
@@ -144,13 +139,6 @@ export function Welcome({ appState, setAppState, setIsSettingsVisible }) {
               <InputSynced type='url' required={true} globalConfigKey={GCLOUD_AUTOML_ENDPOINT} />
             </FormField>
           </Box>
-
-          <Box>
-            <FormField label={"Cloud Storage API Endpoint (Default: " + DEFAULT_GS_ENDPOINT + ")"}>
-              <InputSynced type='url' required={true} globalConfigKey={GCLOUD_GS_ENDPOINT} />
-            </FormField>
-          </Box>
-
 
           <Box>
             <FormField label={"Resource Manager API Endpoint (Default: " + DEFAULT_CRM_ENDPOINT + ")"}>
